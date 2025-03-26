@@ -38,10 +38,18 @@ const StoreContextProvider = (props) => {
     };
     
 
+    const getTotalCartAmount = () => {
+        let totalAmount = 0;
+        for (const item in cartItems) {
+            if (cartItems[item] > 0) {
+                let itemInfo = food_list.find((product) => product._id == item); // 🔥 Dùng `==` để so sánh số và chuỗi
+                totalAmount += itemInfo.price * cartItems[item];
+  
+            }
+        }
+        return totalAmount;
+    };
 
-    useEffect(()=>{
-        console.log(cartItems);
-    },[cartItems])
 
 
     const contextValue = {
@@ -49,7 +57,8 @@ const StoreContextProvider = (props) => {
         cartItems,
         setCartItems,
         addToCart,
-        removeFromCart
+        removeFromCart,
+        getTotalCartAmount,
     }
 
 
