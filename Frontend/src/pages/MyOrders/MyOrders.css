@@ -18,13 +18,13 @@
     font-size:14px;
     padding:10px 20px;
     color:#454545;
-    border:1px solid tomato;
+    border:1px solid rgb(170, 97, 84);
 }
 .my-orders-order img{
     width: 50px;
 }
 .my-orders-order p span{
-    color: tomato;
+    color: rgb(195, 103, 86);
 }
 .my-orders-order p b{
     font-weight: 500;
