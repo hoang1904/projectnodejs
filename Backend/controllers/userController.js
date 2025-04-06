@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import validator from "validator";
 
+
 //login user
 const loginUser = async (req, res) => {
     const {email, password} = req.body;
@@ -73,5 +74,54 @@ const registerUser = async (req, res) => {
     }
 }
 
+// display all users
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await userModel.find({}, '-password'); // Ẩn field password
+        res.status(200).json(users);
+    } catch (err) {
+        console.error('Error when get user:', err);
+        res.status(500).json({ message: 'Error server' });
+    }
+};
 
-export { loginUser, registerUser };
+// delete user by id
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await userModel.findByIdAndDelete(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User does not exist' });
+        }
+        res.status(200).json({ message: 'User was successfully deleted' });
+    } catch (err) {
+        console.error('Error while deleting user:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+//update user
+const updateUser = async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const { name, email, role } = req.body;
+  
+      const updatedUser = await userModel.findByIdAndUpdate(
+        userId,
+        { name, email, role },
+        { new: true }
+      );
+  
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User không tồn tại" });
+      }
+  
+      res.status(200).json(updatedUser);
+    } catch (err) {
+      console.error("Lỗi update user:", err);
+      res.status(500).json({ message: "Lỗi server" });
+    }
+  };
+  
+
+export { loginUser, registerUser, getAllUsers, deleteUser, updateUser };

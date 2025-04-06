@@ -43,10 +43,10 @@ const List = ({url}) => {
         return(
           <div key={index} className= 'list-table-format'>
             <img src={`${url}/images/`+item.image} alt="" />
-            <p>{item.name}</p>
-            <p>{item.category}</p>
-            <p>${item.price}</p>
-            <p onClick={()=>removeFood(item._id)} className='cursor'>X</p>
+            <p style={{padding:'0px'}}>{item.name}</p>
+            <p style={{padding:'0px'}}>{item.category}</p>
+            <p style={{padding:'0px'}}>${item.price}</p>
+            <p style={{padding:'15px'}} onClick={()=>removeFood(item._id)} className='cursor'>X</p>
           </div>
 
         )

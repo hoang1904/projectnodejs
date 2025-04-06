@@ -11,7 +11,6 @@
   const Orders = ({url}) => {                      // --  Display orders
   
     const [orders, setOrders] = useState([])
-                                                  // Create order update feature
     const fetchAllOrders = async () => {
       const response = await axios.get(url+"/api/order/list");
       if (response.data.success) {
@@ -32,6 +31,26 @@
          await fetchAllOrders();
         }
     }
+
+    // const removeOrder = async (foodID) => {
+    //   try {
+    //     const response = await axios.delete(`${url}/api/orders/remove`, {
+    //       data: { id: foodID }
+    //     });
+    
+    //     await fetchList();
+    
+    //     if (response.data.success) {
+    //       toast.success(response.data.message);
+    //     } else {
+    //       toast.error("Xóa không thành công");
+    //     }
+    //   } catch (error) {
+    //     toast.error("Đã xảy ra lỗi khi xóa order");
+    //     console.error(error);
+    //   }
+    // };
+    
   
     useEffect(() => {
       fetchAllOrders();
@@ -65,11 +84,12 @@
                   </div>
                   <p> Items: {order.items.length}</p>
                 <p>${order.amount}</p>
-                <select onChange={(event)=>statusHandler(event,order._id)} value={order.status} > //Create order update feature
+                <select onChange={(event)=>statusHandler(event,order._id)} value={order.status} > 
                   <option value="Food Processing">Food Processing</option>
                   <option value="Out for delivery">Out for delivery</option>
                   <option value="Delivered">Delivered</option>
-                  </select>
+                </select>
+                {/* <p onClick={()=>removeOrder(item._id)} className='cursor'>X</p> */}
               </div>
            ))}
            </div>
