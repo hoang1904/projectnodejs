@@ -34,15 +34,22 @@ const LoginPopup = ({setShowLogin}) => {
     
     
         const response = await axios.post(newUrl, data);
-    
+        console.log("✅ Login response:", response.data); // 👈 THÊM DÒNG NÀY
+        
         if (response.data.success) {
           setToken(response.data.token);
           localStorage.setItem("token", response.data.token);
+        
+          if (response.data.user) {
+            localStorage.setItem("userId", response.data.user._id);
+            localStorage.setItem("userName", response.data.user.name);
+          }
+        
           setShowLogin(false);
         }
-        else {
-          alert(response.data.message);
-        }
+        
+        
+        
     }
     
 

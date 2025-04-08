@@ -69,7 +69,59 @@
     background-color: antiquewhite;
      
 }
-
+.star-display {
+    font-size: 14px;
+    color: #f39c12;
+    margin-top: 2px;
+  }
+  
 .food-item-counter img {
     width: 30px;
 }
+.food-item-img-container {
+    position: relative; /* Để .add và .food-item-counter định vị được */
+  }
+  
+  .food-item-counter,
+  .add {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 2; /* ✅ Đảm bảo nổi lên trên ảnh */
+  }
+  
+  .food-item-image {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    z-index: 1; /* ✅ thấp hơn counter */
+  }
+  .truncate-text {
+    white-space: nowrap;           /* hiện 1 dòng duy nhất */
+    overflow: hidden;              /* ẩn phần tràn ra ngoài */
+    text-overflow: ellipsis;       /* hiện "..." */
+    max-width: 100%;               /* đảm bảo không tràn */
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+  }
+  .food-item-desc {
+    padding-left: 20px; /* Thụt lề trái 20px */
+    font-size: 14px; /* Kích thước chữ */
+    color: #555555; /* Màu chữ */
+        text-align: left;
+
+        padding-left: 10px; /* Thêm khoảng cách thụt lề trái */
+    margin: 5px 0; /* Điều chỉnh margin nếu cần */
+    white-space: nowrap; /* Đảm bảo văn bản không xuống dòng */
+    overflow: hidden; /* Cắt bớt văn bản nếu vượt quá */
+    text-overflow: ellipsis; /* Hiển thị dấu ba chấm nếu văn bản dài */
+  }
+  
+  .truncate-text {
+    display: block;
+    text-align: left;
+    width: 100%; /* Giới hạn độ rộng */
+  }
+  
