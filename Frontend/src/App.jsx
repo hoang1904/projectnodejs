@@ -9,8 +9,8 @@ import LoginPopup from './components/LoginPopup/LoginPopup';
 import Verify from './pages/Verify/Verify';
 import MyOrders from "./pages/MyOrders/MyOrders";
 import ProductDetail from './pages/ProductDetail/ProductDetail';
-import ForgotPassword from './components/LoginPopup/ForgotPassword'; // 🔥 Đã thêm
-import ResetPassword from "./pages/ResetPassword/ResetPassword"; 
+import ForgotPassword from './components/LoginPopup/ForgotPassword';
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 
 // ✅ Thêm react-toastify
 import { ToastContainer } from 'react-toastify';
@@ -18,40 +18,49 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
-  const [showForgot, setShowForgot] = useState(false); // 🔥 Đã thêm
+  const [showForgot, setShowForgot] = useState(false);
+
+  // 🟧 Đã thêm: lưu từ khóa tìm kiếm từ Navbar
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <>
-      {/* Popup đăng nhập */}
       {showLogin && (
         <LoginPopup
           setShowLogin={setShowLogin}
-          setShowForgot={setShowForgot} // 🔥 Đã thêm prop này
+          setShowForgot={setShowForgot}
         />
       )}
       {showForgot && (
         <ForgotPassword
-          setShowForgot={setShowForgot} // 🔥 Đã thêm
-          setShowLogin={setShowLogin}   // 🔥 Đã thêm
+          setShowForgot={setShowForgot}
+          setShowLogin={setShowLogin}
         />
       )}
-      
-      <div className='app'>   
-        <Navbar setShowLogin={setShowLogin} />
+
+      <div className='app'>
+
+        {/* 🟧 Đã thêm: truyền searchTerm vào Navbar */}
+        <Navbar
+          setShowLogin={setShowLogin}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
 
         <Routes>
-          <Route path='/' element={<Home />} />
+          {/* 🟧 Đã thêm: truyền searchTerm vào Home */}
+          <Route path='/' element={<Home searchTerm={searchTerm} />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/order' element={<PlaceOrder />} />
           <Route path='/verify' element={<Verify />} />
           <Route path='/myorders' element={<MyOrders />} />
           <Route path='/product/:id' element={<ProductDetail />} />
-          <Route path='/reset-password' element={<ResetPassword />} /> {/* 🔥 Đã thêm */}
+          <Route path='/reset-password' element={<ResetPassword />} />
         </Routes>
       </div>
 
       <Footer />
 
-      {/* ✅ Thêm container để hiển thị toast ở mọi trang */}
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -62,7 +71,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light" // hoặc "dark"
+        theme="light"
       />
     </>
   );
