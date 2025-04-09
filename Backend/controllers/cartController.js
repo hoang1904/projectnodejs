@@ -55,6 +55,11 @@ const getCart = async (req, res) => {
   try {
     const userId = req.user?.id || req.body.userId;
     const user = await userModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "Không tìm thấy người dùng." });
+    }
+
     const cartData = user.cartData || {};
     res.json({ success: true, cartData });
   } catch (error) {
@@ -62,5 +67,6 @@ const getCart = async (req, res) => {
     res.status(500).json({ success: false, message: "Lỗi server" });
   }
 };
+
 
 export { addToCart, removeFromCart, getCart };

@@ -1,44 +1,77 @@
 .user-container {
-  padding: 20px;
-  font-family: sans-serif;
-  max-width: 100%; /* Cho phép full chiều ngang */
+  padding: 32px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f8;
+  min-height: 100vh;
 }
 
-/* Grid định dạng bảng */
+/* Search & Filter Bar */
+.user-filter-container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.user-filter-container input,
+.user-filter-container select {
+  padding: 10px 14px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  transition: border 0.3s;
+}
+
+.user-filter-container input:focus,
+.user-filter-container select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* User Grid */
 .list-table-format {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6 cột bằng nhau */
+  grid-template-columns: minmax(40px, 0.5fr) 1.2fr 1.5fr 1fr 1.5fr 0.8fr;
   align-items: center;
-  gap: 15px;
-  padding: 15px 20px;
-  border: 1px solid #cacaca;
-  font-size: 14px;
-  background-color: #fff;
+  gap: 10px;
+  padding: 16px 24px;
+  background-color: white;
+  border-radius: 10px;
   margin-bottom: 10px;
-  border-radius: 6px;
-  width: 100%;
-  box-sizing: border-box; /* Không bị tràn lề khi có padding */
-  max-width: 100%; /* Giới hạn chiều rộng tối đa */
+  font-size: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
 .list-table-format.title {
-  background-color: #f9f9f9;
-  font-weight: bold;
+  background-color: transparent;
+  font-weight: 600;
+  color: #444;
+  box-shadow: none;
+  border-bottom: 2px solid #ccc;
+}
+
+/* Actions */
+.list-table-format button {
+  background-color: #e0e0e0;
   border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.list-table-format p {
-  display: flex;
-  align-items: center;
-  padding-left: 25px;
+.list-table-format button:hover {
+  background-color: #ccc;
 }
 
-/* Responsive */
+/* Responsive Grid */
 @media (max-width: 768px) {
   .list-table-format {
     grid-template-columns: 1fr 2fr 1fr;
-    gap: 15px;
     font-size: 13px;
+    padding: 14px;
   }
 
   .list-table-format.title {
@@ -46,7 +79,7 @@
   }
 }
 
-/* Modal popup */
+/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -62,43 +95,45 @@
 
 .modal {
   background: white;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 24px;
+  border-radius: 12px;
   width: 400px;
-  max-width: 95%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  max-width: 90%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+}
+
+.modal input,
+.modal select {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
 .modal-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  
+  margin-top: 10px;
 }
 
-.modal-buttons .save button{
-  background: #65db2e;
-  color: black;
-  width: 100px;
-  height: 25px;
+.modal-buttons button {
   border: none;
   border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.modal-buttons .close button{
-  background: #f44336;
+.modal-buttons .save {
+  background-color: #4CAF50;
   color: white;
-  width: 100px;
-  height: 25px;
-  border: none;
-  border-radius: 20px;
 }
 
-.modal input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.modal-buttons .close {
+  background-color: #f44336;
+  color: white;
 }

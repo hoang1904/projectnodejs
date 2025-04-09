@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './User.css';
 
-const AdminUsers = () => {
+const User = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("");
 
   useEffect(() => {
     fetchUsers();
@@ -13,68 +15,86 @@ const AdminUsers = () => {
   const fetchUsers = () => {
     axios.get('http://localhost:4000/api/user/users')
       .then((res) => setUsers(res.data))
-      .catch((err) => console.error('Lỗi khi load user:', err));
+      .catch((err) => console.error('Error loading user:', err));
   };
-
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa người dùng này?");
-    if (!confirmDelete) return;
-  
-    try {
-      await axios.delete(`http://localhost:4000/api/user/delete/${id}`);
-      alert("Xóa người dùng thành công");
-      fetchUsers(); // cập nhật lại danh sách
-    } catch (err) {
-      console.error("Lỗi khi xóa user:", err);
-      alert("Có lỗi xảy ra khi xóa người dùng");
-    }
-  };
-  
 
   const handleUpdate = async () => {
     try {
       await axios.put(`http://localhost:4000/api/user/update/${editingUser._id}`, editingUser);
-      alert('Cập nhật thành công');
+      alert('Update successful');
       setEditingUser(null);
       fetchUsers();
     } catch (err) {
-      console.error("Lỗi update user:", err);
-      alert("Lỗi khi cập nhật user");
+      console.error("Error updating user:", err);
+      alert("Error updating user");
     }
   };
 
+  const handleDelete = async (userId) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      try {
+        await axios.delete(`http://localhost:4000/api/user/delete/${userId}`);
+        fetchUsers();
+      } catch (err) {
+        console.error("Lỗi xoá user:", err);
+        alert("Delete failed");
+      }
+    }
+  };
+
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch =
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesRole = roleFilter === "" || user.role === roleFilter;
+
+    return matchesSearch && matchesRole;
+  });
+
   return (
     <div className="user-container">
-      <p>List user</p>
+      <div className="user-filter-container">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search by name or email..."
+        />
+        <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)}>
+          <option value="">All roles</option>
+          <option value="Admin">Admin</option>
+          <option value="User">User</option>
+        </select>
+      </div>
 
       <div className="list-table-format title">
         <div>#</div>
         <div>Name</div>
         <div>Email</div>
-        <div style={{padding : '15px'}}>Role</div>
+        <div>Role</div>
+        <div>ID</div>
         <div>Action</div>
       </div>
 
-      {/* Danh sách user */}
-      {users.map((user, index) => (
-        <div className="list-table-format" key={user._id}>
-        <div>{index + 1}</div>
-        <div>{user.name}</div>
-        <div>{user.email}</div>
-        <div style={{ padding: '15px' }}>{user.role || 'User' || 'Staff' || 'Admin'}</div>
-        <div>
-          <button onClick={() => setEditingUser(user)}>✏️</button>
-          <button onClick={() => handleDelete(user._id)} style={{ marginLeft: '10px' }}>🗑️</button>
+      {filteredUsers.map((user, index) => (
+        <div className="list-table-format user-row" key={user._id}>
+          <div>{index + 1}</div>
+          <div className="user-name">{user.name}</div>
+          <div className="user-email">{user.email}</div>
+          <div className="user-role">{user.role || 'User'}</div>
+          <div style={{ fontSize: '11px', color: '#777' }}>{user._id.slice(0, 6)}...</div>
+          <div>
+            <button onClick={() => setEditingUser(user)}>✏️</button>
+            <button onClick={() => handleDelete(user._id)} style={{ marginLeft: '10px' }}>🗑️</button>
+          </div>
         </div>
-      </div>
       ))}
 
-
-      {/* Modal chỉnh sửa */}
       {editingUser && (
         <div className="modal-overlay">
           <div className="modal">
-            <h3>Edit user</h3>
+            <h3>Modify user</h3>
             <input
               type="text"
               value={editingUser.name}
@@ -87,19 +107,16 @@ const AdminUsers = () => {
               onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
               placeholder="Email"
             />
-            <input
-              type="text"
+            <select
               value={editingUser.role}
               onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value })}
-              placeholder="Role"
-            />
+            >
+              <option value="Admin">Admin</option>
+              <option value="User">User</option>
+            </select>
             <div className="modal-buttons">
-              <div className="save">
-                <button onClick={handleUpdate}>Save</button>
-              </div>
-              <div className="close">
-                <button onClick={() => setEditingUser(null)}>Close</button>
-              </div>
+              <button onClick={handleUpdate}>Save</button>
+              <button onClick={() => setEditingUser(null)}>Close</button>
             </div>
           </div>
         </div>
@@ -108,4 +125,4 @@ const AdminUsers = () => {
   );
 };
 
-export default AdminUsers;
+export default User;
