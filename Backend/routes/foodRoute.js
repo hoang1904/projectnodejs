@@ -25,13 +25,25 @@ foodRouter.get("/:id", async (req, res) => {
     try {
         const food = await FoodModel.findById(req.params.id);
         if (!food) {
-            return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
+            return res.status(404).json({ message: "Product not found" });
         }
         res.json(food);
     } catch (error) {
-        console.error("Lỗi khi lấy sản phẩm:", error);
-        res.status(500).json({ message: "Lỗi server" });
+        console.error("Error fetching product:", error);
+        res.status(500).json({ message: "Server error" });
     }
 });
+
+// 🆕 API POST /api/food/update — Cập nhật thông tin món ăn
+foodRouter.post('/update', async (req, res) => {
+    try {
+      const { id, name, category, price, description } = req.body;
+      await FoodModel.findByIdAndUpdate(id, { name, category, price, description });
+      res.json({ success: true, message: 'Updated successfully' });
+    } catch (error) {
+      res.json({ success: false, message: 'Update failed' });
+    }
+  });
+  
 
 export default foodRouter;
