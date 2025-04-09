@@ -12,8 +12,21 @@
     border-radius: 15px 15px 0px 0px;
 }
 
+  
 .food-item-info{
     padding: 18px;
+}
+.food-item-img-container {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* ✅ Tạo khung vuông tự động theo chiều rộng */
+  overflow: hidden;
+  border-radius: 10px;
+}
+.food-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ✅ Đảm bảo ảnh đầy khung, không méo */
+  border-radius: 10px;
 }
 
 .food-item-name-rating{
@@ -67,7 +80,7 @@
     border-radius: 45px;
     padding: 5px;
     background-color: antiquewhite;
-     
+    
 }
 .star-display {
     font-size: 14px;
@@ -96,16 +109,7 @@
     cursor: pointer;
     z-index: 1; /* ✅ thấp hơn counter */
   }
-  .truncate-text {
-    white-space: nowrap;           /* hiện 1 dòng duy nhất */
-    overflow: hidden;              /* ẩn phần tràn ra ngoài */
-    text-overflow: ellipsis;       /* hiện "..." */
-    max-width: 100%;               /* đảm bảo không tràn */
-    display: block;
-    font-size: 14px;
-    color: #555;
-    margin-top: 5px;
-  }
+  
   .food-item-desc {
     padding-left: 20px; /* Thụt lề trái 20px */
     font-size: 14px; /* Kích thước chữ */
@@ -119,9 +123,17 @@
     text-overflow: ellipsis; /* Hiển thị dấu ba chấm nếu văn bản dài */
   }
   
+  
   .truncate-text {
-    display: block;
-    text-align: left;
-    width: 100%; /* Giới hạn độ rộng */
+    
+    display: block;             /* Hiển thị block để dùng được ellipsis */
+       /* ✅ Cố định chiều rộng cho hiệu ứng ellipsis */
+    white-space: nowrap;        /* ✅ Không xuống dòng */
+    overflow: hidden;           /* ✅ Ẩn phần dư */
+    text-overflow: ellipsis;    /* ✅ Thêm dấu ... */
+  
+    word-break: keep-all;       /* ✅ KHÔNG cắt chữ giữa chừng */
+    overflow-wrap: normal;      /* ✅ Ngắt theo từ */
   }
+  
   
