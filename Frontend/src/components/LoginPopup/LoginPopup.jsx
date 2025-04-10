@@ -34,7 +34,7 @@ const LoginPopup = ({setShowLogin,setShowForgot}) => {
     
     
         const response = await axios.post(newUrl, data);
-        console.log("✅ Login response:", response.data); // 👈 THÊM DÒNG NÀY
+        console.log("✅ Login response:", response.data); 
         
         if (response.data.success) {
           setToken(response.data.token);

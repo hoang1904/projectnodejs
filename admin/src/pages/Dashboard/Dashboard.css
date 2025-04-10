@@ -1,0 +1,54 @@
+.dashboard-container {
+    padding: 30px;
+  }
+  
+.cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+  
+.card {
+  background-color: #f1f5f9;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 200px;
+  flex: 1;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+  
+.top-customers {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+}
+  
+.top-customers ul {
+  padding-left: 20px;
+}
+
+.chart-section h2 .Bar{
+  gap: 20px;
+}
+
+.top-food-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.top-food-table th,
+.top-food-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.top-food-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+  
