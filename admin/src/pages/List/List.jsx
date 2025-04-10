@@ -21,8 +21,7 @@ const List = ({ url }) => {
       setList(data);
       setFilteredList(data);
       const categories = [...new Set(data.map(item => item.category).filter(c => c && c.trim() !== ""))];
-setAllCategories(categories);
-
+      setAllCategories(categories);
     } else {
       toast.error("Error fetching food list");
     }
@@ -112,16 +111,24 @@ setAllCategories(categories);
         <div className="edit-modal">
           <div className="edit-box">
             <h3>Edit Product</h3>
-            <input value={editFields.name} onChange={(e) => setEditFields({ ...editFields, name: e.target.value })} placeholder="Name" />
-            <input type="number" value={editFields.price} onChange={(e) => setEditFields({ ...editFields, price: e.target.value })} placeholder="Price" />
+            <label>Product Name</label>
+            <input value={editFields.name} onChange={(e) => setEditFields({ ...editFields, name: e.target.value })} placeholder="Enter product name" />
+
+            <label>Price ($)</label>
+            <input type="number" value={editFields.price} onChange={(e) => setEditFields({ ...editFields, price: e.target.value })} placeholder="Enter price" />
+
+            <label>Category</label>
             <select value={editFields.category} onChange={(e) => setEditFields({ ...editFields, category: e.target.value })}>
               <option value="">Select category</option>
               {allCategories.map((cat, i) => <option key={i} value={cat}>{cat}</option>)}
             </select>
-            <textarea value={editFields.description} onChange={(e) => setEditFields({ ...editFields, description: e.target.value })} placeholder="Description" />
+
+            <label>Description</label>
+            <textarea value={editFields.description} onChange={(e) => setEditFields({ ...editFields, description: e.target.value })} placeholder="Write a short description" />
+
             <div className="edit-actions">
               <button onClick={handleSaveEdit}>Save</button>
-              <button onClick={() => setEditingItem(null)}>Cancel</button>
+              <button onClick={() => setEditingItem(null)} className="cancel-btn">Cancel</button>
             </div>
           </div>
         </div>

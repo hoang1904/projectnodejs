@@ -224,3 +224,9 @@ width:50px;
   background-color: #ccc;
   color: #333;
 }
+
+.edit-modal textarea {
+  max-height: 120px;
+  overflow-y: auto;
+  resize: vertical;
+}
