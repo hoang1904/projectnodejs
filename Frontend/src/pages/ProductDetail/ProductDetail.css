@@ -1,0 +1,245 @@
+.product-detail-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+.product-detail-left {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+}
+
+.product-detail-left img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.product-detail-right {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-detail-right h2 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.product-detail-right .description {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.product-detail-right .price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+.product-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product-actions button,
+.cart-counter button {
+  padding: 10px 16px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.product-actions button:hover,
+.cart-counter button:hover {
+  background-color: #219150;
+}
+
+.cart-counter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-counter span {
+  font-size: 18px;
+}
+
+.review-section {
+  margin-top: 30px;
+}
+
+.review-section h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.review-section textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+.review-section button {
+  padding: 10px 20px;
+
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.review-section button:hover {
+  background-color: #2980b9;
+}
+
+.review-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rating-stars {
+  margin-bottom: 10px;
+}
+.quantity-select {
+  margin: 20px 0 10px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.quantity-controls button {
+  padding: 5px 15px;
+  font-size: 18px;
+  cursor: pointer;
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.add-to-cart-actions {
+  margin-top: 15px;
+}
+
+.add-cart-btn {
+  background-color: #c0392b;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.product-description-box {
+  background-color: #f9f9f9;
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-top: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.product-description-box h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+.product-description-box p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.review-item {
+  background-color: #f9f9f9;
+  border-left: 5px solid #3498db;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+.food-item-desc {
+  padding-left: 15px; /* Thụt lề trái 15px, bạn có thể điều chỉnh giá trị này theo nhu cầu */
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.review-item p {
+  margin: 0;
+  font-size: 15px;
+}
+.product-description-box {
+  text-align: left;  /* Căn lề trái cho đoạn mô tả */
+  max-width: 600px;   /* Giới hạn chiều rộng để mô tả không quá rộng */
+  margin-top: 20px;   /* Tạo khoảng cách từ ảnh */
+  padding: 20px;
+  background-color: #f9f9f9;  /* Thêm màu nền nhẹ cho hộp mô tả */
+  border-radius: 8px; /* Bo góc để hộp mô tả mềm mại hơn */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Thêm bóng nhẹ cho hộp mô tả */
+}
+
+.product-description-box h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.product-description-box p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;  /* Giãn cách các dòng để dễ đọc */
+  margin-bottom: 10px;
+}
+.review-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+}
+
+.review-actions button {
+  font-size: 18px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.review-actions button:hover {
+  background-color: #f0f0f0;
+}
