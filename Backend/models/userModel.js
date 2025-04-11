@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+<<<<<<< HEAD
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -12,6 +13,13 @@ const userSchema = new mongoose.Schema({
     resetTokenExpire: Date            // thời gian hết hạn của token
   }, { minimize: false });
   
+=======
+    name: {type:String, required:true},
+    email: {type:String, required:true, unique:true},
+    password: {type:String, required:true},
+    cartData: {type:Object, default:{}}
+},{minimize:false});
+>>>>>>> ebb187b (admin-edit-order)
 
 const userModel = mongoose.models.user || mongoose.model("user", userSchema);
 export default userModel;

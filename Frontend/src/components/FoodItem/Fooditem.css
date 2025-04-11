@@ -69,6 +69,7 @@
     background-color: antiquewhite;
      
 }
+<<<<<<< HEAD
 .star-display {
     font-size: 14px;
     color: #f39c12;
@@ -125,3 +126,9 @@
     width: 100%; /* Giới hạn độ rộng */
   }
   
+=======
+
+.food-item-counter img {
+    width: 30px;
+}
+>>>>>>> ebb187b (admin-edit-order)

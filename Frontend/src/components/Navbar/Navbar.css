@@ -55,7 +55,11 @@
     position: absolute;
     min-width: 10px;
     min-height: 10px;
+<<<<<<< HEAD
     background-color: rgb(244, 115, 92);
+=======
+    background-color: tomato;
+>>>>>>> ebb187b (admin-edit-order)
     border-radius: 5px;
     top: -8px;
     right: -8px;
@@ -164,6 +168,7 @@
     }
 
     
+<<<<<<< HEAD
 }
 
 .search-box {
@@ -300,3 +305,6 @@
     padding: 6px 0;
   }
   
+=======
+}
+>>>>>>> ebb187b (admin-edit-order)

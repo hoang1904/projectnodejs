@@ -39,7 +39,11 @@ return (
                         <p>${order.amount}.00</p>
                         <p>Items: {order.items.length}</p>
                         <p><span>&#x25cf;</span> <b>{order.status}</b></p>
+<<<<<<< HEAD
                         <button onClick={fetchOrders}>Track Order</button>  
+=======
+                        <button onClick={fetchOrders}>Track Order</button>  /*Create order update feature */
+>>>>>>> ebb187b (admin-edit-order)
                     </div>
                 )
             })}

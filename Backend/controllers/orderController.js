@@ -1,8 +1,11 @@
 import orderModel from "../models/orderModel.js";
 import userModel  from '../models/userModel.js'
 import Stripe     from "stripe"
+<<<<<<< HEAD
 import express from 'express';
 const router = express.Router();
+=======
+>>>>>>> ebb187b (admin-edit-order)
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
@@ -57,6 +60,7 @@ const placeOrder = async (req,res) =>{
     }
     
 }
+<<<<<<< HEAD
 
 
 // edit order
@@ -104,6 +108,25 @@ const deleteOrder = async (req, res) => {
 };
 
 
+=======
+//Create order update feature
+const verifyOrder = async (req, res) => {
+    const { orderId, success } = req.body;
+    try {
+      if (success == "true") {
+        await orderModel.findByIdAndUpdate(orderId, { payment: true });
+        res.json({ success: true, message: "Paid" });
+      } else {
+        await orderModel.findByIdAndDelete(orderId);
+        res.json({ success: false, message: "Not Paid" });
+      }
+    } catch (error) {
+        console.log(error);
+        res.json({success:false,message:"Error"})
+    }
+  }
+  
+>>>>>>> ebb187b (admin-edit-order)
 //user orders for frontend
 const userOrders = async (req,res) =>{
     try {
@@ -117,6 +140,7 @@ const userOrders = async (req,res) =>{
 
 // listing orders for admin panel   
 // Display orders in admin panel  
+<<<<<<< HEAD
 //phân trang đơn hàng.
 // GET /api/order/list?page=1&limit=10
 const listOrders = async (req, res) => {
@@ -162,6 +186,18 @@ const listOrders = async (req, res) => {
 
 
 
+=======
+const listOrders = async (req, res) => {
+    try {
+        const orders = await orderModel.find({})  
+        res.json({success: true, data:orders});
+    }   catch (error) {
+        console.log(error);
+        res.json({success: false, message: 'Error'});
+    }
+}
+
+>>>>>>> ebb187b (admin-edit-order)
 // api for updating order status  
 const updateStatus = async (req, res) => {
     try {
@@ -172,6 +208,7 @@ const updateStatus = async (req, res) => {
             res.json({success: false, message: 'Error'});
     }
 }
+<<<<<<< HEAD
 // update order
 // PUT /api/order/update
 router.put('/order/update', async (req, res) => {
@@ -213,3 +250,6 @@ const verifyOrder = async (req, res) => {
   };
   
 export {placeOrder,verifyOrder,userOrders,listOrders,updateStatus,deleteOrder,deleteMultipleOrders,updateOrder}
+=======
+export {placeOrder,verifyOrder,userOrders,listOrders,updateStatus}
+>>>>>>> ebb187b (admin-edit-order)

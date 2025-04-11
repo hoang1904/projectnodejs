@@ -20,6 +20,7 @@
     font-size: 15px;
     animation: fadeIn 0.5s;
 }
+<<<<<<< HEAD
 .forgot-title {
 color: #ff5c33; /* Màu cam nổi bật */
 text-align: center;
@@ -29,6 +30,9 @@ font-weight: bold;
  margin-bottom: 10px;
   }
   
+=======
+
+>>>>>>> ebb187b (admin-edit-order)
 .login-popup-title{
     display: flex;
     justify-content: space-between;

@@ -6,15 +6,23 @@ import userRouter from "./routes/userRoute.js"
 import 'dotenv/config' 
 import cartRouter from "./routes/cartRoute.js"
 import orderRouter from "./routes/orderRoute.js"
+<<<<<<< HEAD
 import reviewRoute from './routes/reviewRoute.js';
+=======
+
+
+>>>>>>> ebb187b (admin-edit-order)
 
 //app config
 const app = express()
 const port = 4000
 
+<<<<<<< HEAD
 // edit order
 
 
+=======
+>>>>>>> ebb187b (admin-edit-order)
 //middleware
 app.use(express.json())
 app.use(cors())
@@ -28,8 +36,13 @@ app.use("/images",express.static('uploads'))
 app.use("/api/user",userRouter)
 app.use("/api/cart",cartRouter)
 app.use("/api/order",orderRouter)
+<<<<<<< HEAD
 app.use('/api/review', reviewRoute)
 app.use("/api/order", orderRouter); 
+=======
+
+
+>>>>>>> ebb187b (admin-edit-order)
 app.get("/",(req,res)=>{
     res.send("API Working") 
 })

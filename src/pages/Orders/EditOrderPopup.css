@@ -1,0 +1,133 @@
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .edit-order-form {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-title {
+    text-align: center;
+    color: #0a58ca;
+    margin-bottom: 24px;
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  
+  .form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  
+  .address-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .section-title {
+    margin-top: 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #0a58ca;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 sản phẩm 1 hàng */
+    gap: 20px;
+  }
+  
+  .product-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .product-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .product-details {
+    flex-grow: 1;
+  }
+  
+  .product-details input {
+    width: 60px;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #aaa;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .submit-btn {
+    flex: 1;
+    padding: 12px;
+    background: #00c3ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .cancel-btn {
+    flex: 1;
+    padding: 12px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+
+.delete-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #d11a2a;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 4px;
+  }
+  

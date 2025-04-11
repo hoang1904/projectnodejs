@@ -18,13 +18,21 @@
     font-size:14px;
     padding:10px 20px;
     color:#454545;
+<<<<<<< HEAD
     border:1px solid rgb(170, 97, 84);
+=======
+    border:1px solid tomato;
+>>>>>>> ebb187b (admin-edit-order)
 }
 .my-orders-order img{
     width: 50px;
 }
 .my-orders-order p span{
+<<<<<<< HEAD
     color: rgb(195, 103, 86);
+=======
+    color: tomato;
+>>>>>>> ebb187b (admin-edit-order)
 }
 .my-orders-order p b{
     font-weight: 500;
