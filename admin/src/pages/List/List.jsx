@@ -100,8 +100,10 @@ const List = ({ url }) => {
             <p>{item.category}</p>
             <p>${item.price}</p>
             <div>
-              <FaEdit className="cursor" onClick={() => handleEditClick(item)} style={{ marginRight: '10px' }} />
-              <FaTrash className="cursor" onClick={() => removeFood(item._id)} />
+              <div className="actions">
+                <FaEdit className="cursor" onClick={() => handleEditClick(item)} style={{ marginRight: '10px' }} />
+                <FaTrash className="cursor" onClick={() => removeFood(item._id)} style={{color: '#d9534f'}} />
+              </div>
             </div>
           </div>
         ))}

@@ -137,3 +137,43 @@
   background-color: #f44336;
   color: white;
 }
+
+/* Responsive enhancements for mobile layout */
+@media (max-width: 600px) {
+  .list-table-format {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .list-table-format > div {
+    margin-bottom: 6px;
+    font-size: 14px;
+    word-break: break-word;
+    width: 100%;
+  }
+
+  .list-table-format .user-name,
+  .list-table-format .user-email,
+  .list-table-format .user-role {
+    font-weight: 500;
+  }
+
+  .user-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .user-actions button {
+    background-color: #eee;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+}
+

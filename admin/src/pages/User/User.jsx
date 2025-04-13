@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './User.css';
+import { FaTrash, FaEdit } from 'react-icons/fa';
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -84,9 +85,9 @@ const User = () => {
           <div className="user-email">{user.email}</div>
           <div className="user-role">{user.role || 'User'}</div>
           <div style={{ fontSize: '11px', color: '#777' }}>{user._id.slice(0, 6)}...</div>
-          <div>
-            <button onClick={() => setEditingUser(user)}>✏️</button>
-            <button onClick={() => handleDelete(user._id)} style={{ marginLeft: '10px' }}>🗑️</button>
+          <div className="user-actions">
+            <FaEdit onClick={() => setEditingUser(user)} style={{ cursor: 'pointer', marginRight: '10px' }} />
+            <FaTrash onClick={() => handleDelete(user._id)} style={{ cursor: 'pointer', color: '#d9534f' }} />
           </div>
         </div>
       ))}

@@ -121,15 +121,33 @@ width:50px;
     color: white;
   }
   
-@media (max-width: 600px){
-    .list-table-format{
-        grid-template-columns: 1fr 3fr 1fr;
-        gap:15px;
+  @media (max-width: 600px) {
+    .list-table-format {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 10px;
     }
-    .list-table-format.title{
-        display:none;
+  
+    .list-table-format img {
+      width: 100%;
+      max-width: 120px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+  
+    .list-table-format p {
+      margin: 0;
+    }
+  
+    .list-table-format .actions {
+      display: flex;
+      gap: 12px;
+      align-self: flex-end;
     }
 }
+  
 .modal-backdrop {
   position: fixed;
   top: 0;
