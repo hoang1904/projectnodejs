@@ -63,5 +63,21 @@ const removeFood = async (req, res) => {
     res.json({ success: false, message: "Error" });
   }
 };
+// Lấy sản phẩm cùng category (trừ sản phẩm đang xem)
+const getFoodByCategory = async (req, res) => {
+  try {
+    const { category, excludeId } = req.params;
 
-export { addFood, listFood, removeFood };
+    const foods = await foodModel.find({
+      category: category,
+      _id: { $ne: excludeId }
+    });
+
+    res.json({ success: true, data: foods });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Lỗi server" });
+  }
+};
+
+export { addFood, listFood, removeFood, getFoodByCategory };
