@@ -243,3 +243,76 @@
 .review-actions button:hover {
   background-color: #f0f0f0;
 }
+.related-products {
+  margin-top: 30px;
+}
+
+.related-products-list {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+}
+
+.related-product-item {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  width: 200px;
+}
+
+.related-product-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.related-product-item p {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.related-product-item button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.related-product-item button:hover {
+  background-color: #45a049;
+}
+.related-product-item {
+  display: inline-block;
+  margin: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.product-image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.product-image-wrapper img {
+  width: 155px;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+  border-radius: 6px;
+}
+
+
+
+.food-item-pricess {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(255, 87, 34, 0.9);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  z-index: 2;
+}
