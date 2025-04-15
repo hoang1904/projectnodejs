@@ -1,5 +1,5 @@
 import express from "express";
-import { addFood, listFood, removeFood } from "../controllers/foodController.js";
+import { addFood, listFood, removeFood,getFoodByCategory} from "../controllers/foodController.js";
 import FoodModel from "../models/foodModel.js"; // 🆕 import thêm model
 import multer from "multer";
 
@@ -19,6 +19,8 @@ const upload = multer({ storage: storage });
 foodRouter.post("/add", upload.single("image"), addFood);
 foodRouter.get("/list", listFood);
 foodRouter.post("/remove", removeFood);
+// API lấy sản phẩm cùng category (trừ sản phẩm đang xem)
+foodRouter.get("/category/:category/:excludeId", getFoodByCategory);
 
 // 🆕 API GET /api/food/:id — Lấy chi tiết món ăn theo ID
 foodRouter.get("/:id", async (req, res) => {
@@ -44,6 +46,7 @@ foodRouter.post('/update', async (req, res) => {
       res.json({ success: false, message: 'Update failed' });
     }
   });
+  
   
 
 export default foodRouter;
