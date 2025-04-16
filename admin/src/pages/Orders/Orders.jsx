@@ -16,11 +16,17 @@ const Orders = ({ url }) => {
   // 📦 Lấy danh sách đơn hàng theo trang từ API
   const fetchOrders = async (currentPage = 1) => {
     try {
-      const response = await axios.get(`${url}/api/order/list?page=${currentPage}&limit=10`);
+      const response = await axios.get(`${url}/api/order/list?page=${currentPage}&limit=10`, {
+        headers: {
+          token: localStorage.getItem("token") // ✅ GỬI TOKEN để xác thực
+        }
+      });
+
       const data = response.data?.data;
 
       if (response.data.success) {
         const fetchedOrders = Array.isArray(data) ? data : data?.orders || [];
+        console.log("✅ Đơn hàng từ server:", fetchedOrders); // ✅ DEBUG LOG
         setOrders(fetchedOrders);
         setPage(data?.currentPage || 1);
         setTotalPages(data?.totalPages || 1);
@@ -33,7 +39,6 @@ const Orders = ({ url }) => {
     }
   };
 
-  // 🔄 Cập nhật trạng thái đơn hàng
   const statusHandler = async (event, orderId) => {
     try {
       const response = await axios.post(`${url}/api/order/status`, {
@@ -51,7 +56,6 @@ const Orders = ({ url }) => {
     }
   };
 
-  // ❌ Xóa một đơn hàng
   const deleteOrder = async (orderId) => {
     try {
       const response = await axios.post(`${url}/api/order/delete`, { orderId });
@@ -67,14 +71,12 @@ const Orders = ({ url }) => {
     }
   };
 
-  //  Gán đơn hàng để chỉnh sửa
   const editOrder = (orderId) => {
     const selectedOrder = orders.find(o => o._id === orderId);
     setEditingOrder(selectedOrder);
     setIsEditing(true);
   };
 
-  //  Xóa nhiều đơn hàng được chọn
   const handleDeleteSelected = async () => {
     try {
       const response = await axios.post(`${url}/api/order/delete-multiple`, {
@@ -102,7 +104,6 @@ const Orders = ({ url }) => {
     <div className='order add'>
       <h3>Order Page</h3>
 
-      {/*  Bảng danh sách đơn hàng */}
       <div className='order-table'>
         <div className='order-header'>
           <p>Order ID</p>
@@ -114,11 +115,10 @@ const Orders = ({ url }) => {
           <p>Action</p>
         </div>
 
-        {/*  Khi không có đơn hàng */}
         {orders.length === 0 ? (
           <p className='no-orders'>Không có đơn hàng nào.</p>
         ) : (
-          orders.map((order, index) => (
+          orders.map((order) => (
             <div key={order._id} className='order-row'>
               <p className='order-id-cell'>
                 <input
@@ -169,7 +169,6 @@ const Orders = ({ url }) => {
         )}
       </div>
 
-      {/* Phân trang (Pagination) */}
       {orders.length > 0 && (
         <div className="pagination">
           <button onClick={() => setPage(prev => Math.max(prev - 1, 1))} disabled={page === 1}>
@@ -195,31 +194,28 @@ const Orders = ({ url }) => {
         </div>
       )}
 
-      {/*  Form chỉnh sửa đơn hàng */}
       {isEditing && editingOrder && (
-  <EditOrderPopup
-    order={editingOrder}
-    onClose={() => setIsEditing(false)}
-    onSave={async (updatedOrder) => {
-      try {
-        const res = await axios.put(`${url}/api/order/update`, updatedOrder);
-        if (res.data.success) {
-          toast.success("Cập nhật đơn hàng thành công!");
-          setIsEditing(false);
-          fetchOrders(page);
-        } else {
-          toast.error("Cập nhật thất bại.");
-        }
-      } catch (err) {
-        console.error(err);
-        toast.error("Lỗi server khi cập nhật.");
-      }
-    }}
-  />
-)}
+        <EditOrderPopup
+          order={editingOrder}
+          onClose={() => setIsEditing(false)}
+          onSave={async (updatedOrder) => {
+            try {
+              const res = await axios.put(`${url}/api/order/update`, updatedOrder);
+              if (res.data.success) {
+                toast.success("Cập nhật đơn hàng thành công!");
+                setIsEditing(false);
+                fetchOrders(page);
+              } else {
+                toast.error("Cập nhật thất bại.");
+              }
+            } catch (err) {
+              console.error(err);
+              toast.error("Lỗi server khi cập nhật.");
+            }
+          }}
+        />
+      )}
 
-
-      {/*  Thanh xoá nhiều đơn hàng cố định */}
       {selectedOrders.length >= 2 && (
         <div className="bulk-action-bar">
           <span>{selectedOrders.length} selected</span>
