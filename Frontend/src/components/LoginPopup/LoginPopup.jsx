@@ -22,35 +22,43 @@ const LoginPopup = ({setShowLogin,setShowForgot}) => {
         setData((data) => ({...data, [name]: value}));
     };
 
-    const onLogin = async () => {
-        event.preventDefault()
-        let newUrl = url;
-        if (currState === "Login") {
-          newUrl += "/api/user/login";
-        } 
-        else {
-          newUrl += "/api/user/register";
-        }
+    const onLogin = async (event) => {
+      event.preventDefault();
+      let newUrl = url;
+      if (currState === "Login") {
+        newUrl += "/api/user/login";
+      } else {
+        newUrl += "/api/user/register";
+      }
     
-    
+      try {
         const response = await axios.post(newUrl, data);
-        console.log("✅ Login response:", response.data); 
-        
+        console.log("✅ Login response:", response.data);
+    
         if (response.data.success) {
           setToken(response.data.token);
           localStorage.setItem("token", response.data.token);
-        
+    
           if (response.data.user) {
             localStorage.setItem("userId", response.data.user._id);
             localStorage.setItem("userName", response.data.user.name);
           }
-        
+    
           setShowLogin(false);
+        } else {
+          alert(response.data.message || "Unknown error occurred.");
         }
-        
-        
-        
-    }
+    
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          alert(error.response.data.message || "Email already exists.");
+        } else {
+          alert("Something went wrong. Please try again.");
+          console.error(error);
+        }
+      }
+    };
+    
     
 
     // useEffect(() => {   

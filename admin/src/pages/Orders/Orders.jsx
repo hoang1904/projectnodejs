@@ -134,7 +134,7 @@ const Orders = ({ url }) => {
                     }
                   }}
                 />
-                <span className='order-id-text'>#{order._id?.slice(0, 5)}</span>
+                <span className='order-id-text'>#{order._id?.slice( -5)}</span>
               </p>
 
               <p>{order?.address?.firstName} {order?.address?.lastName}</p>

@@ -47,26 +47,49 @@ const loginUser = async (req, res) => {
 // ===========================
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
+
+  // Kiểm tra dữ liệu đầu vào có đầy đủ không
+  if (!name || !email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "Please fill in all required fields."
+    });
+  }
+
+  // Kiểm tra định dạng email
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({
+      success: false,
+      field: "email",
+      message: "Invalid email format."
+    });
+  }
+
+  // Kiểm tra độ dài mật khẩu
+  if (password.length < 8) {
+    return res.status(400).json({
+      success: false,
+      field: "password",
+      message: "Password must be at least 8 characters long."
+    });
+  }
+
   try {
+    // Kiểm tra email đã được đăng ký chưa
     const exists = await userModel.findOne({ email });
     if (exists) {
-      return res.json({ success: false, message: "User already exists" });
-    }
-
-    if (!validator.isEmail(email)) {
-      return res.json({ success: false, message: "Invalid email. Please enter valid email again" });
-    }
-
-    if (password.length < 8) {
-      return res.json({
+      return res.status(409).json({
         success: false,
-        message: "Password must be at least 8 characters long. Please enter strong password"
+        field: "email",
+        message: "Email already registered. Please use another."
       });
     }
 
+    // Mã hoá mật khẩu
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Tạo người dùng mới
     const newUser = new userModel({
       name,
       email,
@@ -76,7 +99,7 @@ const registerUser = async (req, res) => {
     const user = await newUser.save();
     const token = createToken(user._id);
 
-    res.json({
+    return res.json({
       success: true,
       token,
       user: {
@@ -85,10 +108,14 @@ const registerUser = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error" });
+    console.error("Register error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later."
+    });
   }
 };
+
 
 // ===========================
 // GET ALL USERS
