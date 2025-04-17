@@ -1,9 +1,170 @@
- /* thêm full code này vào  admin/src/page/Orders/Orders.css
-    chức năng Display orders in admin panel     */ 
+
+/* BULK ACTION BAR (DELETE MULTIPLE ORDERS) */
+.bulk-action-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 80%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    z-index: 1000;
+  }
   
-  .order-item {             
+  .bulk-delete-btn {
+    background: #f43e1e;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  .bulk-delete-btn:hover {
+    background-color: #f4172d;
+    transform: scale(1.05);
+  }
+  
+  .bulk-cancel-btn {
+    background: #22c5f7c7;
+    color: #333;
+    border: 1px solid #389df0;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  .bulk-cancel-btn:hover {
+    background-color: #0b96f2;
+    transform: scale(1.05);
+  }
+  
+  /*  ORDER TABLE HEADER + ROW (7 COLUMNS) */
+  .order-header,
+  .order-row {
     display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
+    grid-template-columns: 
+      1fr   /* Order ID */
+      1.5fr   /* Customer Name */
+      3fr     /* Product */
+      1fr     /* Amount */
+      1.5fr   /* Location */
+      1.2fr   /* Status */
+      1fr;    /* Actions */
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  
+  .order-header {
+    font-weight: bold;
+    background-color:  #fff8f8cc;
+    border: 1px solid #ff6347;
+    color: #333;
+  }
+  
+  .order-row {
+    border: 1px solid #f4a261;
+    background-color: #f6f5f585;
+  }
+  
+  /* ========== ORDER ROW:  */
+  .order-id-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .order-id-text {
+    font-weight: 500;
+  }
+  
+  .order-checkbox {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+  
+  /*  PRODUCT DANH SÁCH  */
+  .order-product-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .order-product-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f4f4f4;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+  
+  .order-product-item img,
+  .product-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  
+  /*  */
+  .order-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .action-btn {
+    border: none;
+    background-color: #f3f3f3;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .action-btn.edit:hover {
+    background-color: #d1f7d1;
+    color: green;
+  }
+  
+  .action-btn.delete:hover {
+    background-color: #ffe0e0;
+    color: red;
+  }
+  
+  /* XÓA ĐƠN NHỎ */
+  .order-item-delete {
+    background-color: #0f9bce4c;
+    color: #000;
+    border: 1px solid rgb(14, 128, 209);
+    padding: 10px;
+    border-radius: 6px;
+    width: max(10vw, 120px);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .order-item-delete:hover {
+    background-color: #c8250b;
+    color: white;
+  }
+  
+  /*  CHI TIẾT ĐƠN HÀNG RIÊNG  */
+  .order-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
     align-items: start;
     gap: 30px;
     border: 1px solid tomato;
@@ -11,40 +172,87 @@
     margin: 30px 0px;
     font-size: 14px;
     color: #505050;
-}
-.order-item-food, .order-item-name {
+  }
+  
+  .order-item-food,
+  .order-item-name {
     font-weight: 600;
-}
-
-.order-item-name {
+  }
+  
+  .order-item-name {
     margin-top: 30px;
     margin-bottom: 5px;
-}
-
-.order-item-address {
+  }
+  
+  .order-item-address {
     margin-bottom: 10px;
-}
-.order-item select {
+  }
+  
+  .order-item select {
     background-color: #ffe8e4;
     border: 1px solid tomato;
     width: max(10vw, 120px);
     padding: 10px;
     outline: none;
-}
-@media (max-width: 1000px) {
+  }
+  
+  /* ORDER TABLE STRUCTURE */
+  .order-table {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+  }
+  
+  /* ========== PAGINATION ========== */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  
+  .pagination button {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .pagination button.active {
+    background-color: #222;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /*  RESPONSIVE*/
+  @media (max-width: 1000px) {
     .order-item {
-        font-size: 12px;
-        grid-template-columns: 0.5fr 2fr 1fr;
-        padding: 15px 8px;
+      font-size: 12px;
+      grid-template-columns: 0.5fr 2fr 1fr;
+      padding: 15px 8px;
     }
-
+  
     .order-item select {
-        padding: 5px;
-        font-size: 12px;
-     
+      padding: 5px;
+      font-size: 12px;
     }
-
+  
     .order-item img {
-        width: 40px;
+      width: 40px;
     }
-}
+  }
+  
+  .icon-btn {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+  

@@ -1,62 +1,178 @@
-/*Display orders in admin panel */
-
-.my-orders{
-    margin: 50px 0px;
+/* Nút NextNext */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 6px;
 }
 
-.my-orders.container{
+.pagination button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #ffe6f0;
+    border-color: #ff99cc;
+}
+
+.pagination button:disabled {
+    background-color: #f0f0f0;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.pagination button.active {
+    background-color: #ff99cc;
+    color: white;
+    border-color: #ff66b2;
+    font-weight: bold;
+}
+
+ .my-orders {
+    margin: 50px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.my-orders h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+}
+
+.my-orders .container {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-top: 30px;
 }
-.my-orders-order{
+
+.my-orders-header {
     display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 2fr 1fr;
+    grid-template-columns: 1.2fr 3fr 1.2fr 1.8fr 1.5fr 1.3fr;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 20px;
+    background-color: #fefefe;
+    border: 1px solid #ee8a8a;
+    border-radius: 10px;
+    color: #222;
+    text-align: center;
+}
+
+.my-orders-order {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 1.5fr 1.5fr 1.2fr;
     align-items: center;
-    gap:30px;
-    font-size:14px;
-    padding:10px 20px;
-    color:#454545;
-<<<<<<< HEAD
-    border:1px solid rgb(170, 97, 84);
-=======
-    border:1px solid tomato;
->>>>>>> ebb187b (admin-edit-order)
+    justify-items: center; /* Căn giữa ngang */
+    gap: 10px;
+    padding: 16px 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    border: 1px solid rgba(246, 122, 100, 0.3);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
-.my-orders-order img{
-    width: 50px;
+
+.my-orders-order:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-.my-orders-order p span{
-<<<<<<< HEAD
-    color: rgb(195, 103, 86);
-=======
-    color: tomato;
->>>>>>> ebb187b (admin-edit-order)
+
+.order-id {
+    font-weight: 600;
+    color: #333;
 }
-.my-orders-order p b{
-    font-weight: 500;
-    color:#454545;
+
+/*  HIỂN THỊ 2 CỘT ĐỀU NHAU */
+.order-products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
 }
-.my-orders-order button{
-    border:none;
-    padding: 12px 0px;
+
+/* Responsive: 1 cột khi màn hình nhỏ */
+ @media (max-width: 600px) {
+    .order-products {
+        grid-template-columns: 1fr;
+    }
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f2f2f2;
+    padding: 6px 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+}
+
+.product-img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
     border-radius: 4px;
-    background-color: #ffe1e1;
-    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.product-item span {
+    font-size: 14px;
+    color: #333;
+}
+
+.order-time {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #000;
+}
+
+.my-orders-order p span {
+    color: rgb(195, 103, 86);
+}
+
+.my-orders-order p b {
+    font-weight: 500;
     color: #454545;
 }
+
+.my-orders-order button {
+    border: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background-color: #ffe1e1;
+    cursor: pointer;
+    color: #333;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
 .my-orders-order button:hover {
-    background-color: #e8e6e6;
+    background-color: #f5dcdc;
 }
-@media (max-width:900px) {
-    .my-orders-order{
-        grid-template-columns: 1fr 2fr 1fr;
-        row-gap: 5px;
-        font-size: 12px;
-    }
-    .my-orders-order button{
-        font-size:10px;
-    }
-    
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
 }
+
+.pagination button {
+    border: none;
+    background-color: #f0f0f0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #ee8b8b;
+    color: white;
+} 

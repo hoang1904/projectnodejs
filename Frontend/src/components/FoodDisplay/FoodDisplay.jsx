@@ -1,38 +1,28 @@
-<<<<<<< HEAD
 import React, { useContext } from 'react';
 import './FoodDisplay.css';
 import { StoreContext } from '../../context/StoreContext';
 import Fooditem from '../FoodItem/Fooditem';
 import { Link } from 'react-router-dom';
 
-// 🟧 Đã thêm: nhận thêm searchTerm từ props
-const FoodDisplay = ({ category, searchTerm }) => {
+// 🟧 Nhận thêm sortOption từ props
+const FoodDisplay = ({ category, searchTerm, sortOption }) => {
   const { food_list } = useContext(StoreContext);
 
-  // 🟧 Đã thêm: lọc danh sách món theo category + search term
-  const filteredFoods = food_list.filter((item) => {
+  // 🟧 Lọc theo danh mục + từ khoá tìm kiếm
+  let filteredFoods = food_list.filter((item) => {
     const matchCategory = category === "All" || category === item.category;
     const matchSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchCategory && matchSearch;
   });
-=======
-import React, { useContext } from 'react'
-import './FoodDisplay.css'
-import { StoreContext } from '../../context/StoreContext'
-import Fooditem from '../FoodItem/Fooditem'
 
-
-
-const FoodDisplay = ({category}) => {
-
-    const{food_list} = useContext(StoreContext)
->>>>>>> ebb187b (admin-edit-order)
+  // 🟧 Nếu chọn “Món bán chạy”, sắp xếp theo đánh giá cao nhất
+  if (sortOption === "best") {
+    filteredFoods.sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0));
+  }
 
   return (
     <div className='food-display' id='food-display'>
-      <h2>Top dishes you must try</h2>
       <div className="food-display-list">
-<<<<<<< HEAD
         {filteredFoods.map((item, index) => (
           <Link
             to={`/product/${item._id}`}
@@ -56,18 +46,3 @@ const FoodDisplay = ({category}) => {
 };
 
 export default FoodDisplay;
-=======
-        {food_list.map((item,index)=>{
-            if(category==="All" || category===item.category){
-              return <Fooditem key={index} id={item._id} name={item.name} description={item.description} price={item.price} image={item.image}/>
-            }
-
-            
-        })}
-      </div>
-    </div>
-  )
-}
-
-export default FoodDisplay
->>>>>>> ebb187b (admin-edit-order)
