@@ -13,8 +13,13 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 🔒 Kiểm tra độ dài mật khẩu
+    if (newPassword.length < 8) {
+      return setStatus("❌ Password must be at least 8 characters.");
+    }
+
     if (newPassword !== confirmPassword) {
-      return setStatus("❌ Mật khẩu xác nhận không trùng khớp.");
+      return setStatus("❌ Password confirmation does not match.");
     }
 
     try {
@@ -27,40 +32,40 @@ const ResetPassword = () => {
       });
 
       if (res.data.success) {
-        setStatus("✅ Đổi mật khẩu thành công! Bạn sẽ được chuyển hướng...");
+        setStatus("✅ Password reset successfully! Redirecting...");
         setTimeout(() => navigate("/"), 2000);
       } else {
         setStatus("❌ " + res.data.message);
       }
     } catch (err) {
-      setStatus("❌ Có lỗi xảy ra khi gửi yêu cầu.");
+      setStatus("❌ An error occurred while sending the request.");
     }
   };
 
   return (
     <div className="reset-password-page">
-     <form className="reset-password-container" onSubmit={handleSubmit}>
-  <h2 className="title">LẤY LẠI MẬT KHẨU</h2>
-  <p className="subtitle">Xác thực thông tin cá nhân của bạn</p>
+      <form className="reset-password-container" onSubmit={handleSubmit}>
+        <h2 className="title">Reset Password</h2>
+        <p className="subtitle">Please verify your identity and create a new password</p>
 
-  <input
-    type="password"
-    placeholder="Nhập mật khẩu mới"
-    value={newPassword}
-    onChange={(e) => setNewPassword(e.target.value)}
-    required
-  />
-  <input
-    type="password"
-    placeholder="Xác nhận mật khẩu"
-    value={confirmPassword}
-    onChange={(e) => setConfirmPassword(e.target.value)}
-    required
-  />
-  <button type="submit">Đổi mật khẩu</button>
-  {status && <p className="status-text">{status}</p>}
-</form>
+        <input
+          type="password"
+          placeholder="Enter new password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Confirm new password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
 
+        <button type="submit">Reset Password</button>
+        {status && <p className="status-text">{status}</p>}
+      </form>
     </div>
   );
 };

@@ -3,10 +3,9 @@ import {
   getTotalOrders,
   getTotalRevenue,
   getAverageOrderValue,
-  getTotalItems,
   getRevenueByDate,
   getTopCustomers,
-  getTopSellingProducts
+  getTopSellingProducts // ✅ Đã sửa để trả về tất cả món ăn
 } from "../controllers/dashboardController.js";
 
 const router = express.Router();
@@ -26,10 +25,11 @@ router.get("/", async (req, res) => {
       getAverageOrderValue(),
       getRevenueByDate(),
       getTopCustomers(),
-      getTopSellingProducts(5)
+      getTopSellingProducts() // ✅ Lấy tất cả món
     ]);
 
     res.json({
+      success: true,
       totalOrders,
       totalRevenue,
       avgRevenue,
@@ -43,4 +43,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-export default router; 
+export default router;

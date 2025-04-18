@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import nodemailer from "nodemailer";
+
 // Tạo token JWT
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
@@ -48,7 +49,6 @@ const loginUser = async (req, res) => {
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
-  // Kiểm tra dữ liệu đầu vào có đầy đủ không
   if (!name || !email || !password) {
     return res.status(400).json({
       success: false,
@@ -56,7 +56,6 @@ const registerUser = async (req, res) => {
     });
   }
 
-  // Kiểm tra định dạng email
   if (!validator.isEmail(email)) {
     return res.status(400).json({
       success: false,
@@ -65,7 +64,6 @@ const registerUser = async (req, res) => {
     });
   }
 
-  // Kiểm tra độ dài mật khẩu
   if (password.length < 8) {
     return res.status(400).json({
       success: false,
@@ -75,7 +73,6 @@ const registerUser = async (req, res) => {
   }
 
   try {
-    // Kiểm tra email đã được đăng ký chưa
     const exists = await userModel.findOne({ email });
     if (exists) {
       return res.status(409).json({
@@ -85,11 +82,9 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Mã hoá mật khẩu
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Tạo người dùng mới
     const newUser = new userModel({
       name,
       email,
@@ -116,13 +111,12 @@ const registerUser = async (req, res) => {
   }
 };
 
-
 // ===========================
 // GET ALL USERS
 // ===========================
 const getAllUsers = async (req, res) => {
   try {
-    const users = await userModel.find({}, "-password"); // Ẩn field password
+    const users = await userModel.find({}, "-password");
     res.status(200).json(users);
   } catch (err) {
     console.error("Error when get user:", err);
@@ -171,7 +165,8 @@ const updateUser = async (req, res) => {
     res.status(500).json({ message: "Lỗi server" });
   }
 };
-// ✅ Thêm hàm resetPassword
+
+// ✅ RESET PASSWORD
 const resetPassword = async (req, res) => {
   const { id, token, newPassword } = req.body;
 
@@ -192,11 +187,12 @@ const resetPassword = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Password reset successful." });
   } catch (err) {
-      console.error("Lỗi gửi mail:", err);
+    console.error("Lỗi gửi mail:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-// ✅ Thêm hàm forgotPassword
+
+// ✅ FORGOT PASSWORD
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -208,7 +204,7 @@ const forgotPassword = async (req, res) => {
 
     const token = Math.random().toString(36).substring(2);
     user.resetToken = token;
-    user.resetTokenExpire = Date.now() + 1000 * 60 * 60; // Hạn 1 tiếng
+    user.resetTokenExpire = Date.now() + 1000 * 60 * 60;
     await user.save();
 
     const transporter = nodemailer.createTransport({
@@ -220,8 +216,7 @@ const forgotPassword = async (req, res) => {
     });
 
     const mailOptions = {
-     
-  from: `"Tomato 🍅" <${process.env.EMAIL_USER}>`,
+      from: `"Tomato 🍅" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Reset mật khẩu",
       html: `
@@ -230,7 +225,7 @@ const forgotPassword = async (req, res) => {
           <p>Xin chào,</p>
           <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.</p>
           <p style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user._id}"
+            <a href="${process.env.FRONTEND_URL}/reset-password?token=${token}&id=${user._id}"
                style="background-color: #ff6600; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px;">
               Đổi mật khẩu
             </a>
@@ -240,15 +235,9 @@ const forgotPassword = async (req, res) => {
         </div>
       `,
     };
-    
 
-    // 🔍 Debug log
-    console.log("🔐 EMAIL_USER:", process.env.EMAIL_USER);
-    console.log("🔐 EMAIL_PASS:", process.env.EMAIL_PASS ? "Đã có" : "Chưa có");
-    console.log("📩 Gửi đến:", email);
-    console.log("🔗 Link reset:", `${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user._id}`);
+    console.log("🔗 Link reset:", `${process.env.FRONTEND_URL}/reset-password?token=${token}&id=${user._id}`);
 
-    // Gửi email và bắt lỗi chi tiết
     await transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
         console.error("❌ Gửi mail thất bại:", err);
@@ -257,14 +246,18 @@ const forgotPassword = async (req, res) => {
       console.log("✅ Mail gửi thành công:", info.response);
       res.json({ success: true, message: "Đã gửi email reset mật khẩu." });
     });
-
   } catch (err) {
     console.error("❌ Lỗi ngoài luồng:", err);
     res.status(500).json({ success: false, message: "Có lỗi xảy ra khi gửi email." });
   }
 };
 
-
-
-
-export { loginUser, registerUser, getAllUsers, deleteUser, updateUser,resetPassword, forgotPassword };
+export {
+  loginUser,
+  registerUser,
+  getAllUsers,
+  deleteUser,
+  updateUser,
+  resetPassword,
+  forgotPassword
+};
