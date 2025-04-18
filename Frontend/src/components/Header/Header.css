@@ -1,12 +1,13 @@
-.header{
+.header {
     height: 34vw;
     margin: 30px auto;
-    background: url('./header_img.png') no-repeat;
-    background-size: contain;
+    background-size: cover;
+    background-position: center;
     position: relative;
+    transition: background-image 1s ease-in-out, color 1s ease-in-out;
 }
 
-.header-contents{
+.header-contents {
     position: absolute;
     display: flex;
     align-items: start;
@@ -15,27 +16,30 @@
     bottom: 10%;
     left: 6vw;
     flex-direction: column;
+    transition: color 1s ease-in-out; /* Thêm hiệu ứng chuyển đổi màu chữ */
+    font-size: max(2vw, 10px);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.header-contents h3{
+/* .header-contents h3{
     font-weight: 500;
-    color: azure;
+    color: rgb(20, 24, 24);
     font-size: max(4.5vw, 22px);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .header-contents p {
-    color: azure;
+    color: rgb(18, 19, 19);
     font-size: 1vw ;
     animation: fadeIn 3s;
-}
+} */
 
 .header-contents button{
     border: none;
     font-weight: 500px;
-    color: rgb(125, 125, 112);
+    color: rgb(43, 43, 39);
     padding: 1vw, 2.3vw;
-    background-color: beige;
+    background-color: rgb(236, 137, 98);
     font-size: max(1vw , 13px);
     border-radius: 50px;
     height: 45px;

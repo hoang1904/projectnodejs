@@ -57,7 +57,7 @@ const ResetPassword = () => {
     onChange={(e) => setConfirmPassword(e.target.value)}
     required
   />
-  <button type="submit">Đổi mật khẩu</button>
+  <button type="submit">Change password</button>
   {status && <p className="status-text">{status}</p>}
 </form>
 
