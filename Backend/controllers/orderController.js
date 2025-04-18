@@ -1,7 +1,6 @@
 import orderModel from "../models/orderModel.js";
-import userModel from '../models/userModel.js';
 import Stripe from "stripe";
-
+import foodModel from "../models/foodModel.js"; // ✅ Thêm dòng này ở đầu file nếu chưa có
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // 🧾 Đặt đơn hàng
@@ -16,13 +15,24 @@ const placeOrder = async (req, res) => {
     return res.status(400).json({ success: false, message: "Thiếu thông tin địa chỉ" });
   }
 
-  if (typeof amount !== 'number' || amount <= 0) {
+  if (typeof amount !== "number" || amount <= 0) {
     return res.status(400).json({ success: false, message: "Số tiền không hợp lệ" });
   }
 
   try {
     const newOrder = new orderModel({ userId, items, amount, address });
     await newOrder.save();
+
+    // 🔁 Tăng số lượng sold cho mỗi món ăn
+    for (const item of items) {
+      try {
+        await foodModel.findByIdAndUpdate(item._id, {
+          $inc: { sold: item.quantity || 1 }
+        });
+      } catch (err) {
+        console.error("❌ Không cập nhật được sold cho món:", item.name);
+      }
+    }
 
     const session = await stripe.checkout.sessions.create({
       line_items: items.map(item => ({
@@ -33,9 +43,9 @@ const placeOrder = async (req, res) => {
         },
         quantity: item.quantity
       })),
-      mode: 'payment',
+      mode: "payment",
       success_url: `${process.env.BACKEND_URL}/api/order/verify?success=true&orderId=${newOrder._id}`,
-      cancel_url: `${process.env.FRONTEND_URL}/verify?success=false`,
+      cancel_url: `${process.env.FRONTEND_URL}/verify?success=false`
     });
 
     res.json({ success: true, session_url: session.url });
@@ -52,8 +62,7 @@ const verifyOrder = async (req, res) => {
 
     if (success === "true" && orderId) {
       const updated = await orderModel.findByIdAndUpdate(orderId, {
-        payment: true, // ✅ chỉ đánh dấu đã thanh toán
-        // ❌ KHÔNG cập nhật status: "Delivered"
+        payment: true // chỉ đánh dấu đã thanh toán
       });
 
       if (updated) {
@@ -67,8 +76,6 @@ const verifyOrder = async (req, res) => {
     return res.redirect(`${process.env.FRONTEND_URL}/`);
   }
 };
-
-
 
 // ✏️ Cập nhật đơn hàng
 const updateOrder = async (req, res) => {
@@ -85,12 +92,12 @@ const updateOrder = async (req, res) => {
     const updated = await orderModel.findByIdAndUpdate(_id, updateFields, { new: true });
 
     if (!updated)
-      return res.status(404).json({ success: false, message: 'Không tìm thấy đơn hàng.' });
+      return res.status(404).json({ success: false, message: "Không tìm thấy đơn hàng." });
 
-    res.json({ success: true, message: 'Cập nhật thành công', data: updated });
+    res.json({ success: true, message: "Cập nhật thành công", data: updated });
   } catch (error) {
     console.error("Update error:", error.message);
-    res.status(500).json({ success: false, message: 'Lỗi server' });
+    res.status(500).json({ success: false, message: "Lỗi server" });
   }
 };
 
@@ -114,13 +121,17 @@ const deleteOrder = async (req, res) => {
 // 📦 Lấy đơn hàng theo user
 const userOrders = async (req, res) => {
   try {
-    const orders = await orderModel.find({ userId: req.body.userId });
+    const orders = await orderModel
+      .find({ userId: req.body.userId })
+      .sort({ createdAt: -1 }); // ✅ Hiển thị đơn hàng mới nhất trước
+
     res.json({ success: true, data: orders });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });
   }
 };
+
 
 // 📄 Danh sách đơn hàng cho admin (phân trang)
 const listOrders = async (req, res) => {
@@ -138,7 +149,7 @@ const listOrders = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .populate('userId', 'name');
+      .populate("userId", "name");
 
     const enrichedOrders = orders.map(order => ({
       _id: order._id,
@@ -161,7 +172,7 @@ const listOrders = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: 'Error' });
+    res.json({ success: false, message: "Error" });
   }
 };
 
@@ -174,7 +185,7 @@ const updateStatus = async (req, res) => {
     res.json({ success: true, message: "Status updated" });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: 'Error' });
+    res.json({ success: false, message: "Error" });
   }
 };
 
@@ -196,7 +207,6 @@ const deleteMultipleOrders = async (req, res) => {
   }
 };
 
-// 📤 Xuất controller
 export {
   placeOrder,
   verifyOrder,

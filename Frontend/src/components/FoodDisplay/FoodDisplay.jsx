@@ -4,21 +4,15 @@ import { StoreContext } from '../../context/StoreContext';
 import Fooditem from '../FoodItem/Fooditem';
 import { Link } from 'react-router-dom';
 
-// 🟧 Nhận thêm sortOption từ props
-const FoodDisplay = ({ category, searchTerm, sortOption }) => {
+const FoodDisplay = ({ category, searchTerm }) => {
   const { food_list } = useContext(StoreContext);
 
-  // 🟧 Lọc theo danh mục + từ khoá tìm kiếm
+  // ✅ Chỉ lọc theo category và từ khoá tìm kiếm
   let filteredFoods = food_list.filter((item) => {
     const matchCategory = category === "All" || category === item.category;
     const matchSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchCategory && matchSearch;
   });
-
-  // 🟧 Nếu chọn “Món bán chạy”, sắp xếp theo đánh giá cao nhất
-  if (sortOption === "best") {
-    filteredFoods.sort((a, b) => (b.averageRating || 0) - (a.averageRating || 0));
-  }
 
   return (
     <div className='food-display' id='food-display'>
