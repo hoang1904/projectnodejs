@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { assets } from '../../assets/assets';
 import EditOrderPopup from './EditOrderPopup';
 
+
 const Orders = ({ url }) => {
   const [orders, setOrders] = useState([]);
   const [page, setPage] = useState(1);
@@ -195,25 +196,38 @@ const Orders = ({ url }) => {
       )}
 
       {isEditing && editingOrder && (
-        <EditOrderPopup
-          order={editingOrder}
-          onClose={() => setIsEditing(false)}
-          onSave={async (updatedOrder) => {
-            try {
-              const res = await axios.put(`${url}/api/order/update`, updatedOrder);
-              if (res.data.success) {
-                toast.success("Cập nhật đơn hàng thành công!");
-                setIsEditing(false);
-                fetchOrders(page);
-              } else {
-                toast.error("Cập nhật thất bại.");
-              }
-            } catch (err) {
-              console.error(err);
-              toast.error("Lỗi server khi cập nhật.");
-            }
-          }}
-        />
+    <EditOrderPopup
+    order={editingOrder}
+    onClose={() => setIsEditing(false)}
+    onSave={async (updatedOrder) => {
+      try {
+        if (updatedOrder.items.length === 0) {
+          // Nếu không còn sản phẩm nào => gọi API xoá đơn hàng luôn.
+          const res = await axios.post(`${url}/api/order/delete`, { orderId: updatedOrder._id });
+          if (res.data.success) {
+            toast.success("Đơn hàng không có sản phẩm đã được xoá!");
+          } else {
+            toast.error("Không thể xoá đơn hàng rỗng.");
+          }
+        } else {
+          // Ngược lại: Cập nhật đơn hàng
+          const res = await axios.put(`${url}/api/order/update`, updatedOrder);
+          if (res.data.success) {
+            toast.success("Cập nhật đơn hàng thành công!");
+          } else {
+            toast.error("Cập nhật thất bại.");
+          }
+        }
+  
+        setIsEditing(false);
+        fetchOrders(page); // Load lại danh sách
+      } catch (err) {
+        console.error(err);
+        toast.error("Lỗi server.");
+      }
+    }}
+  />
+  
       )}
 
       {selectedOrders.length >= 2 && (

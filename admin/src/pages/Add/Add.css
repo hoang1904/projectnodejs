@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .add{
     width: 85%;
     margin-left: max(5vw,25px);
@@ -45,4 +46,53 @@
     background-color: rgb(31, 30, 30);
     color:white;
     cursor: pointer;
+=======
+.add{
+    width: 85%;
+    margin-left: max(5vw,25px);
+    margin-top: 60px;
+    color: #6d6d6d;
+    font-size: 19px;
+}
+
+.add form{
+    gap:19px;
+}
+
+.add-img-upload img{
+    width:190px;
+    cursor: pointer;
+}
+
+.add-img-upload img:hover{
+    opacity: 0.5;
+}
+
+.add-product-name, .add-product-description{
+    width: max(40%,280px);
+}
+
+.add-product-name input, .add-product-description textarea{
+    padding:11px;
+
+}
+
+.add-category-price{
+    display: flex;
+    gap: 50px;
+}
+
+.add-category-price select, .add-category-price input{
+    max-width: 120px;
+    padding:10px;
+}
+
+.add-btn{
+    max-width: 120px;
+    border:none;
+    padding: 10px;
+    background-color: rgb(31, 30, 30);
+    color:white;
+    cursor: pointer;
+>>>>>>> origin/Sang
 }

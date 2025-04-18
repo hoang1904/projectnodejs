@@ -68,14 +68,14 @@
   
   .order-header {
     font-weight: bold;
-    background-color: #ffe8e4;
+    background-color:  #fff8f8cc;
     border: 1px solid #ff6347;
     color: #333;
   }
   
   .order-row {
     border: 1px solid #f4a261;
-    background-color: #fff8f6;
+    background-color: #f6f5f585;
   }
   
   /* ========== ORDER ROW:  */
@@ -248,5 +248,11 @@
     .order-item img {
       width: 40px;
     }
+  }
+  
+  .icon-btn {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
   }
   
