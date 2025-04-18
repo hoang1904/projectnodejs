@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const PlaceOrder = () => {
   const { getTotalCartAmount, token, food_list, cartItems, url } = useContext(StoreContext);
-  const [isPlacingOrder, setIsPlacingOrder] = useState(false); // ✅ Trạng thái chặn double click
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [data, setData] = useState({
     firstName: '',
     lastName: '',
@@ -29,10 +29,9 @@ const PlaceOrder = () => {
   const placeOrder = async (event) => {
     event.preventDefault();
 
-    if (isPlacingOrder) return; // ✅ Đã bấm → bỏ qua
-    setIsPlacingOrder(true);    // ✅ Chặn bấm tiếp
+    if (isPlacingOrder) return;
+    setIsPlacingOrder(true);
 
-    // Chuẩn bị dữ liệu món ăn
     let orderItems = [];
     food_list.forEach((item) => {
       if (cartItems[item._id] > 0) {
@@ -57,13 +56,13 @@ const PlaceOrder = () => {
         const { session_url } = response.data;
         window.location.replace(session_url);
       } else {
-        alert("❌ Lỗi khi xử lý đơn hàng: " + response.data.message);
+        alert("❌ Order failed: " + response.data.message);
       }
     } catch (err) {
-      console.error("❌ Đặt hàng thất bại:", err);
-      alert("Đã xảy ra lỗi khi đặt hàng.");
+      console.error("❌ Failed to place order:", err);
+      alert("An error occurred while placing the order.");
     } finally {
-      setIsPlacingOrder(false); // ✅ Cho phép bấm lại sau khi xử lý xong
+      setIsPlacingOrder(false);
     }
   };
 
@@ -115,7 +114,7 @@ const PlaceOrder = () => {
           </div>
 
           <button type='submit' disabled={isPlacingOrder}>
-            {isPlacingOrder ? "Đang xử lý..." : "Proceed to payment"}
+            {isPlacingOrder ? "Processing..." : "Proceed to payment"}
           </button>
         </div>
       </div>

@@ -1,11 +1,29 @@
-// admin/src/pages/Dashboard/Dashboard.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Dashboard.css";
-import { Bar, Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Legend } from "chart.js";
+import { Bar, Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  BarElement,
+  LineElement,         // ✅ Thêm dòng này
+  PointElement,        // ✅ Thêm dòng này
+  CategoryScale,
+  LinearScale,
+  ArcElement,
+  Tooltip,
+  Legend
+} from "chart.js";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Legend);
+ChartJS.register(
+  BarElement,
+  LineElement,        // ✅ Đăng ký Line chart
+  PointElement,       // ✅ Đăng ký Point cho Line
+  CategoryScale,
+  LinearScale,
+  ArcElement,
+  Tooltip,
+  Legend
+);
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -16,69 +34,109 @@ const Dashboard = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  if (!stats) return <div>Đang tải thống kê...</div>;
+  if (!stats) return <div>Loading statistics...</div>;
 
-  // Dữ liệu biểu đồ: Top 5 khách hàng
+  // 🔹 Revenue by Day
+  const revenueChartData = {
+    labels: stats.revenueByDate?.map(item => item._id) || [],
+    datasets: [{
+      label: "Revenue by Day",
+      data: stats.revenueByDate?.map(item => item.total) || [],
+      backgroundColor: "#4bc0c0",
+      borderColor: "#4bc0c0",
+      fill: false,
+      tension: 0.3
+    }]
+  };
+
+  // 🔹 Top Customers
   const topCustomerData = {
     labels: stats.topCustomers?.map(c => c.name) || [],
     datasets: [{
-      label: 'Tổng chi tiêu',
+      label: 'Total Spending',
       data: stats.topCustomers?.map(c => c.totalSpent) || [],
       backgroundColor: ['#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236'],
     }]
   };
-  
 
-  // Dữ liệu biểu đồ: Top món ăn bán chạy
+  // 🔹 Màu cho món ăn
+  const topFoodColors = [
+    '#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236',
+    '#166a8f', '#ff6384', '#36a2eb', '#ffce56', '#9966ff'
+  ];
+
+  // 🔹 Best Seller Dishes
   const topFoodData = {
     labels: stats.topProducts?.map(p => p.name) || [],
     datasets: [{
-      label: 'Số lượng đã bán',
+      label: 'Quantity Sold',
       data: stats.topProducts?.map(p => p.sold) || [],
-      backgroundColor: ['#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236'],
+      backgroundColor: topFoodColors.slice(0, stats.topProducts?.length || 5),
+      borderColor: topFoodColors.slice(0, stats.topProducts?.length || 5),
+      fill: false,
+      tension: 0.4
     }]
   };
-  
 
-  // Dữ liệu biểu đồ: Doanh thu 
-  const revenueChartData = {
-    labels: stats.revenueByDate?.map(item => item._id) || [],
-    datasets: [{
-      label: "Doanh thu theo ngày",
-      data: stats.revenueByDate?.map(item => item.total) || [],
-      backgroundColor: "#4bc0c0",
-    }]
+  const topFoodOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: "top"
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "Quantity"
+        }
+      },
+      x: {
+        ticks: {
+          autoSkip: false,
+          maxRotation: 45,
+          minRotation: 30
+        }
+      }
+    }
   };
-  
-  
 
   return (
     <div className="dashboard-container">
       <h1>Dashboard</h1>
 
+      {/* 💳 Summary Cards */}
       <div className="cards">
-        <div className="card">🛒 Đơn hàng: {stats.totalOrders}</div>
-        <div className="card">💰 Doanh thu: ${stats.totalRevenue?.toFixed(2) || 0}</div>
-        <div className="card">📈 Doanh thu TB: ${stats.avgRevenue?.toFixed(2) || 0}</div>
+        <div className="card">🛒 Orders: {stats.totalOrders}</div>
+        <div className="card">💰 Total Revenue: ${stats.totalRevenue?.toFixed(2) || 0}</div>
+        <div className="card">📈 Avg Revenue: ${stats.avgRevenue?.toFixed(2) || 0}</div>
       </div>
 
       <div className="chart-section">
-        <h2 style={{ marginTop: "40px" }}>💵 Doanh thu theo ngày</h2>
-        <Bar data={revenueChartData} />
-<hr />
-        <h2>🏆 Top khách hàng</h2>
+        {/* 💵 Revenue */}
+        <h2 style={{ marginTop: "40px" }}>💵 Revenue Overview</h2>
+        <Line data={revenueChartData} />
+
+        {/* 👑 Top Customers */}
+        <hr />
+        <h2>🏆 Top Customers</h2>
         <Bar data={topCustomerData} />
-{/* <hr />
-      //dang phat trien chuc nang nhung ma deo dc 
-        <h2 style={{ marginTop: "40px" }}>🍽️ Món ăn bán chạy</h2>
-        <Doughnut data={topFoodData} />
+
+        {/* 🍽️ Best Sellers */}
+        <hr />
+        <h2>🍽️ Best Selling Dishes</h2>
+        <Line data={topFoodData} options={topFoodOptions} />
+
         <div style={{ marginTop: "30px" }}>
-          <h3>📋 Chi tiết số lượng món ăn bán ra</h3>
+          <h3>📋 Food Sales Summary</h3>
           <table className="top-food-table">
             <thead>
               <tr>
-                <th>Món ăn</th>
-                <th>Số lượng đã bán</th>
+                <th>Dish</th>
+                <th>Quantity Sold</th>
               </tr>
             </thead>
             <tbody>
@@ -90,7 +148,7 @@ const Dashboard = () => {
               ))}
             </tbody>
           </table>
-        </div> */}
+        </div>
       </div>
     </div>
   );

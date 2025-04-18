@@ -13,13 +13,14 @@ const ForgotPassword = ({ setShowForgot, setShowLogin }) => {
     try {
       const res = await axios.post(`${url}/api/user/forgot-password`, { email });
       if (res.data.success) {
-        setStatus("✅ Link reset password đã được gửi qua email.");
+        setStatus("✅ A password reset link has been sent to your email. ");
       } else {
         setStatus("❌ " + res.data.message);
       }
     } catch (err) {
       console.error(err);
-      setStatus("❌ Có lỗi xảy ra khi gửi email.");
+      setStatus("❌ Sorry, something went wrong while sending the email.");
+
     }
   };
 
@@ -41,13 +42,14 @@ const ForgotPassword = ({ setShowForgot, setShowLogin }) => {
           />
         </div>
         <button type="submit">Send Reset Link</button>
-        {status && <p style={{ color: 'black' }}>{status}</p>}
-        <p style={{ textAlign: 'center' }}>
-          Quay lại <span onClick={() => {
-            setShowForgot(false);
-            setShowLogin(true);
-          }}>Đăng nhập</span>
-        </p>
+{status && <p style={{ color: 'black' }}>{status}</p>}
+<p style={{ textAlign: 'center' }}>
+  Back to <span onClick={() => {
+    setShowForgot(false);
+    setShowLogin(true);
+  }}>Login</span>
+    </p>
+
       </form>
     </div>
   );
