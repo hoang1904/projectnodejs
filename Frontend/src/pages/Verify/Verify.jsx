@@ -3,6 +3,7 @@ import './Verify.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 const Verify = () => {
   const [searchParams] = useSearchParams();
@@ -22,7 +23,7 @@ const Verify = () => {
 
         navigate("/myorders");
       } catch (error) {
-        console.error("❌ Xác minh thất bại:", error);
+        toast.error("❌ Verification failed:", error);
         navigate("/");
       }
     } else {

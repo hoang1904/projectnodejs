@@ -248,3 +248,20 @@ width:50px;
   overflow-y: auto;
   resize: vertical;
 }
+
+/* Add hover effects for action icons */
+.list-table-format .actions svg {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.list-table-format .actions svg:hover {
+  transform: scale(1.2); /* Slightly enlarge the icon on hover */
+}
+
+.list-table-format .actions svg:nth-child(1):hover {
+  color: #5bde62; /* Light blue for edit icon */
+}
+
+.list-table-format .actions svg:nth-child(2):hover {
+  color: #c9302c; /* Darker red for delete icon */
+}

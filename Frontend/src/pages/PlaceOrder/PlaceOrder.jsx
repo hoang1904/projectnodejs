@@ -3,6 +3,7 @@ import './PlaceOrder.css';
 import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const PlaceOrder = () => {
   const { getTotalCartAmount, token, food_list, cartItems, url } = useContext(StoreContext);
@@ -28,6 +29,13 @@ const PlaceOrder = () => {
 
   const placeOrder = async (event) => {
     event.preventDefault();
+
+    // Ensure phone number contains only digits and is at least 10 digits long
+    const phoneRegex = /^\d{10,}$/;
+    if (!phoneRegex.test(data.phone)) {
+      toast.error("Phone number must be at least 10 digits and contain only numbers.");
+      return;
+    }
 
     if (isPlacingOrder) return;
     setIsPlacingOrder(true);
@@ -59,7 +67,7 @@ const PlaceOrder = () => {
         alert("❌ Order failed: " + response.data.message);
       }
     } catch (err) {
-      console.error("❌ Failed to place order:", err);
+      toast.error("❌ Failed to place order:", err);
       alert("An error occurred while placing the order.");
     } finally {
       setIsPlacingOrder(false);

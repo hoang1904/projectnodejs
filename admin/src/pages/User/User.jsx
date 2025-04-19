@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './User.css';
 import { FaTrash, FaEdit } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -22,7 +23,7 @@ const User = () => {
   const handleUpdate = async () => {
     try {
       await axios.put(`http://localhost:4000/api/user/update/${editingUser._id}`, editingUser);
-      alert('Update successful');
+      toast.success('Update successful');
       setEditingUser(null);
       fetchUsers();
     } catch (err) {

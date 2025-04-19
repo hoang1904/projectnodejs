@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { assets } from '../../assets/assets';
 import EditOrderPopup from './EditOrderPopup';
+import { FaTrash, FaEdit } from 'react-icons/fa';
 
 
 const Orders = ({ url }) => {
@@ -32,11 +33,11 @@ const Orders = ({ url }) => {
         setPage(data?.currentPage || 1);
         setTotalPages(data?.totalPages || 1);
       } else {
-        toast.error("Không thể tải đơn hàng.");
+        toast.error("Unable to load order.");
       }
     } catch (error) {
-      console.error("Lỗi khi gọi API:", error);
-      toast.error("Lỗi server.");
+      console.error("Error calling API:", error);
+      toast.error("Server error.");
     }
   };
 
@@ -49,11 +50,11 @@ const Orders = ({ url }) => {
       if (response.data.success) {
         await fetchOrders(page);
       } else {
-        toast.error("Không thể cập nhật trạng thái.");
+        toast.error("Unable to update status.");
       }
     } catch (error) {
-      console.error("Lỗi khi cập nhật trạng thái:", error);
-      toast.error("Lỗi cập nhật trạng thái.");
+      console.error("Error while updating status:", error);
+      toast.error("Status update error.");
     }
   };
 
@@ -61,14 +62,14 @@ const Orders = ({ url }) => {
     try {
       const response = await axios.post(`${url}/api/order/delete`, { orderId });
       if (response.data.success) {
-        toast.success("Đã xoá đơn hàng.");
+        toast.success("Order deleted.");
         fetchOrders(page);
       } else {
-        toast.error("Không thể xoá đơn hàng.");
+        toast.error("Unable to delete order.");
       }
     } catch (error) {
-      console.error("Lỗi khi xoá đơn hàng:", error);
-      toast.error("Lỗi xoá đơn hàng.");
+      console.error("Error when deleting order:", error);
+      toast.error("Error deleting order.");
     }
   };
 
@@ -85,15 +86,15 @@ const Orders = ({ url }) => {
       });
 
       if (response.data.success) {
-        toast.success(response.data.message || "Đã xoá nhiều đơn hàng.");
+        toast.success(response.data.message || "Multiple orders deleted.");
         setSelectedOrders([]);
         fetchOrders(page);
       } else {
-        toast.error(response.data.message || "Không thể xoá đơn hàng.");
+        toast.error(response.data.message || "Unable to delete order.");
       }
     } catch (error) {
-      console.error("Lỗi xoá nhiều đơn hàng:", error);
-      toast.error("Lỗi khi xoá nhiều đơn hàng.");
+      console.error("Error deleting multiple orders:", error);
+      toast.error("Error when deleting multiple orders.");
     }
   };
 
@@ -162,8 +163,11 @@ const Orders = ({ url }) => {
               </select>
 
               <div className='order-actions'>
-                <button className='action-btn edit' onClick={() => editOrder(order._id)}>✏️</button>
-                <button className='action-btn delete' onClick={() => deleteOrder(order._id)}>🗑️</button>
+                <FaEdit onClick={() => editOrder(order._id)}/>
+
+                <FaTrash onClick={() => deleteOrder(order._id)} style={{color: '#d9534f'}}/>
+
+                
               </div>
             </div>
           ))

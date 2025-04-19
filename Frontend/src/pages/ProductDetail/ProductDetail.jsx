@@ -87,7 +87,7 @@ const ProductDetail = () => {
         alert(res.data.message || "Unable to submit review. Please try again.");
       }
     } catch (err) {
-      console.error("Error submitting review:", err);
+      toast.error("Error submitting review:", err);
       alert("An error occurred while submitting the review.");
     }
   };
@@ -100,7 +100,7 @@ const ProductDetail = () => {
       fetchReviews();
       setHasReviewed(false);
     } catch (err) {
-      console.error("Error deleting review:", err);
+      toast.error("Error deleting review:", err);
     }
   };
 
@@ -123,7 +123,7 @@ const ProductDetail = () => {
       });
       fetchReviews();
     } catch (err) {
-      console.error("Error editing review:", err);
+      toast.error("Error editing review:", err);
     }
   };
 
@@ -146,7 +146,7 @@ const ProductDetail = () => {
           headers: { token }
         });
       } catch (err) {
-        console.error("Error adding to cart:", err);
+        toast.error("Error adding to cart:", err);
       }
     }
 
