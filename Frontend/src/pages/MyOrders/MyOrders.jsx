@@ -10,7 +10,6 @@ const MyOrders = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 5;
 
-    // Lấy đơn hàng từ server
     const fetchOrders = async () => {
         try {
             const response = await axios.post(`${url}/api/order/userorders`, {}, {
@@ -26,7 +25,6 @@ const MyOrders = () => {
         if (token) fetchOrders();
     }, [token]);
 
-    // Sắp xếp theo ngày tạo mới nhất
     const sortedData = [...data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -48,22 +46,27 @@ const MyOrders = () => {
                 </div>
 
                 {currentOrders.map((order, index) => {
-                    let time = "Invalid Date";
-                    let date = "Invalid Date";
+                    let time, date;
 
-                    if (order.createdAt) {
+                    try {
                         const createdAt = new Date(order.createdAt);
-                        if (!isNaN(createdAt)) {
-                            time = createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                            date = createdAt.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: '2-digit' });
-                        }
+                        const validDate = order.createdAt && !isNaN(createdAt)
+                            ? createdAt
+                            : new Date();
+
+                        time = validDate.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+                        date = validDate.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: '2-digit' });
+                    } catch (err) {
+                        const now = new Date();
+                        time = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+                        date = now.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: '2-digit' });
                     }
 
                     return (
                         <div key={index} className='my-orders-order'>
                             <p className="order-id">#{order._id?.slice(-5)}</p>
 
-                            <div className="order-products">
+                            <div className={`order-products ${order.items.length === 1 ? 'center-if-single' : ''}`}>
                                 {order.items.map((item, i) => (
                                     <div key={i} className="product-item">
                                         <img 

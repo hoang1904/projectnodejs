@@ -176,3 +176,14 @@
     background-color: #ee8b8b;
     color: white;
 } 
+.order-products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+  
+  .order-products.center-if-single {
+    justify-content: center;
+  }
+  
