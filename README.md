@@ -65,9 +65,4 @@ Nếu bạn gặp lỗi hoặc muốn đóng góp, hãy mở issue tại:
 
 ---
 
-```
 
----
-
-📌 Nếu bạn có sử dụng thêm tính năng nào như `multer` (upload file), `bcrypt`, `jsonwebtoken`, hoặc giao diện `AdminLTE` thì có thể nói mình biết để bổ sung thêm phần hướng dẫn.
-```
